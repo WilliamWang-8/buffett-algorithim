@@ -7,16 +7,11 @@ import requests
 market_key = "cvkbmnpr01qu5brnqs70cvkbmnpr01qu5brnqs7g"
 finnhub_client = finnhub.Client(api_key = market_key)
 
-# set up Alpaca API client
+# set up Alpaca API client (paper trading API keys)
 alpaca_key = "PKBN3BLX4PQHOCZ00QPZ"
 secret_key = "9fA1vekjReQggjB36H7lIUtDwVo7T2XbwdelGUIE"
 alpaca_api = alpaca.REST(alpaca_key, secret_key, "https://paper-api.alpaca.markets", api_version='v2')
 account = alpaca_api.get_account()
-
-# live information:
-# alpaca_key = "AK0MD6M6LURFD34UZ7TX"
-# secret_key = "lxokaSm7Lsddo4oEqdxChnqi0hzO3RK8VK4GGxQC"
-# alpaca_api = alpaca.REST(alpaca_key, secret_key, "https://api.alpaca.markets", api_version='v2')
 
 # SPY: S&P ETF, DIA: Dow ETF, QQQ: Nasdaq ETF
 etf_index = "SPY", "DIA", "QQQ"
