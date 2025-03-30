@@ -1,1 +1,2 @@
-
+# buffett-algorithim
+Simple Python trading algorithm using Alpaca, inspired by Warren Buffett’s McDonald's [breakfast picks](https://finance.yahoo.com/news/warren-buffett-lets-stock-market-141523529.html). Depending on market performance, it buys or sells a “McDonald’s meal” worth of stock.
