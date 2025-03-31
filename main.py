@@ -24,8 +24,8 @@ for index in etf_index:
     dps.append(current_index["dp"])
 
 # determine average dp for overall market trend
-average_dp = 3
-print(average_dp)
+average_dp = 0.03
+print("Current Market dp: ", average_dp)
 
 # assign investment amount and buy/sell based off market trend
 if average_dp>0.5:
@@ -68,11 +68,15 @@ if mcdonald_meal[1] == "buy":
             # Check if market cap meets threshold and asset is active/tradable
             if market_cap is not None and market_cap > 100000:
                 if asset.status == "active" and asset.tradable:
-                    filtered_stock = True            
-
+                    filtered_stock = True
+                    
+    # set payload value and symbol            
+    payload["notional"] = mcdonald_meal[0]
+    payload["symbol"] = stock_symbol
     # place order
     print("Buying $", mcdonald_meal[0], "of", stock_symbol)
     response = requests.post("https://paper-api.alpaca.markets/v2/orders", json=payload, headers=headers)
+    print(response.text)
 
 else:
     # ensure there is a position to sell and the value is greater than the meal amount
@@ -83,24 +87,21 @@ else:
     if len(positions) == 0:
         print("No positions found. Cannot sell or execute order.")
     else:
-        print("Positions:", positions)
         # choose random position and determine nominal value
         random_position = random.choice(positions) 
-        quantity = random_position["qty"]
-        market_value = random_position["market_value"]
-        nominal_value = quantity*market_value
+        market_value = float(random_position["market_value"])
 
         # set payload symbol
         payload["symbol"] = random_position["symbol"]
 
         # either set payload value as meal amount or nominal value owned
-        if (mcdonald_meal[0]>nominal_value):
-            payload["notional"] = nominal_value 
+        if (mcdonald_meal[0]>market_value):
+            payload["notional"] = market_value 
         else:
             payload["notional"] = mcdonald_meal[0]
         
         # place order
-        print("Selling", payload["notational"], "of", random_position["symbol"])
+        print("Selling", payload["notional"], "of", random_position["symbol"])
         response = requests.post("https://paper-api.alpaca.markets/v2/orders", json=payload, headers=headers)
 
 
